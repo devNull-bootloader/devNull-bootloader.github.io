@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urvish Lanje — Developer & Math Enthusiast</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #0a0a0f;
+      --surface:  #12121a;
+      --card:     #1a1a28;
+      --border:   #2a2a40;
+      --accent:   #7c3aed;
+      --accent2:  #a855f7;
+      --cyan:     #06b6d4;
+      --text:     #e2e8f0;
+      --muted:    #94a3b8;
+      --glow:     rgba(124,58,237,.35);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ─── Star-field canvas ────────────────────────── */
+    #stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+    /* ─── Scrollbar ────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ─── Nav ──────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .9rem 2rem;
+      background: rgba(10,10,15,.75);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 1.15rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--accent2), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ─── Shared layout ────────────────────────────── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    section { position: relative; z-index: 1; padding: 5rem 0; }
+
+    /* ─── Hero ─────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding-top: 5rem;
+    }
+    .hero-inner { max-width: 780px; }
+    .hero-badge {
+      display: inline-block; margin-bottom: 1.5rem;
+      padding: .35rem 1rem; border-radius: 999px;
+      background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.4);
+      font-size: .8rem; color: var(--accent2); letter-spacing: .05em;
+    }
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800; line-height: 1.1;
+      background: linear-gradient(135deg, #fff 30%, var(--accent2) 70%, var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--muted); margin-bottom: 2rem; max-width: 560px; margin-inline: auto;
+    }
+    .hero-sub span { color: var(--accent2); font-weight: 600; }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.6rem; border-radius: 10px;
+      font-size: .95rem; font-weight: 600; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; box-shadow: 0 0 24px var(--glow);
+    }
+    .btn-primary:hover { box-shadow: 0 0 36px var(--glow); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ─── Section titles ───────────────────────────── */
+    .section-tag {
+      display: inline-block; margin-bottom: .75rem;
+      font-size: .75rem; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--accent2);
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      margin-bottom: .5rem; line-height: 1.2;
+    }
+    .section-desc { color: var(--muted); max-width: 560px; margin-bottom: 3rem; }
+
+    /* ─── About ────────────────────────────────────── */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.25rem;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .stat-card:hover { border-color: var(--accent2); box-shadow: 0 0 20px var(--glow); }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--accent2); }
+    .stat-label { font-size: .85rem; color: var(--muted); }
+
+    /* ─── Competitions ─────────────────────────────── */
+    #competitions { background: var(--surface); }
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .comp-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .comp-card:hover {
+      border-color: var(--accent2); transform: translateY(-4px);
+      box-shadow: 0 8px 30px var(--glow);
+    }
+    .comp-icon { font-size: 2rem; margin-bottom: .75rem; }
+    .comp-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .35rem; }
+    .comp-desc { font-size: .88rem; color: var(--muted); }
+
+    /* ─── Skills ───────────────────────────────────── */
+    .skills-grid {
+      display: flex; flex-wrap: wrap; gap: .75rem;
+    }
+    .skill-pill {
+      padding: .45rem 1rem; border-radius: 999px;
+      background: var(--card); border: 1px solid var(--border);
+      font-size: .88rem; color: var(--muted);
+      transition: border-color .2s, color .2s;
+    }
+    .skill-pill:hover { border-color: var(--accent2); color: var(--text); }
+    .skill-pill.highlight {
+      background: rgba(124,58,237,.15); border-color: rgba(124,58,237,.5);
+      color: var(--accent2);
+    }
+
+    /* ─── Projects ─────────────────────────────────── */
+    #projects { background: var(--surface); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.75rem;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .project-card:hover {
+      border-color: var(--accent2); transform: translateY(-5px);
+      box-shadow: 0 10px 40px var(--glow);
+    }
+    .project-header {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: .75rem;
+    }
+    .project-icon { font-size: 1.6rem; }
+    .project-links { display: flex; gap: .5rem; }
+    .project-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; border-radius: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); text-decoration: none; font-size: .85rem;
+      transition: border-color .2s, color .2s;
+    }
+    .project-link:hover { border-color: var(--accent2); color: var(--accent2); }
+    .project-title { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .project-desc { font-size: .9rem; color: var(--muted); flex: 1; }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem;
+    }
+    .tag {
+      padding: .25rem .7rem; border-radius: 6px;
+      background: rgba(124,58,237,.1); border: 1px solid rgba(124,58,237,.25);
+      font-size: .75rem; color: var(--accent2);
+    }
+    .project-stars {
+      display: flex; align-items: center; gap: .3rem;
+      font-size: .8rem; color: #f59e0b; margin-top: .75rem;
+    }
+
+    /* ─── Contact ──────────────────────────────────── */
+    #contact { text-align: center; }
+    .contact-card {
+      display: inline-flex; flex-direction: column; align-items: center;
+      gap: 1.5rem; max-width: 520px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 24px; padding: 3rem 2.5rem;
+      box-shadow: 0 0 60px rgba(124,58,237,.12);
+    }
+    .contact-card p { color: var(--muted); }
+    .contact-links { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+
+    /* ─── Footer ───────────────────────────────────── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .85rem;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    /* ─── Responsive ───────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: .75rem 1.25rem; }
+      .nav-links { display: none; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ─── Fade-in animation ────────────────────────── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── Star canvas ── -->
+<canvas id="stars"></canvas>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-logo">Urvish Lanje</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#competitions">Competitions</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">✦ Indian student from Germany ✦</div>
+    <h1 class="hero-name">Urvish Lanje</h1>
+    <p class="hero-sub">
+      Builder. Mathematician. <span>Space Nerd.</span><br>
+      Turning equations into code — from orbital mechanics to AI.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View Projects
+      </a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── About ── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text fade-up">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">Hi, I'm Urvish 👋</h2>
+        <p>
+          I'm an <strong>Indian student living in Germany</strong> with a deep passion for
+          <strong>mathematics, physics, and computer science</strong>. I love building things
+          that sit at the intersection of rigorous science and clean code.
+        </p>
+        <p>
+          Whether it's simulating orbital mechanics, preparing for math olympiads, or
+          training machine-learning models, I approach every problem with curiosity and
+          a desire to understand the <em>why</em> behind every result.
+        </p>
+        <p>
+          When I'm not coding I'm studying competition mathematics, reading about
+          astrophysics, or working on the next science project for <strong>Jugend forscht</strong>.
+        </p>
+        <p>
+          <strong>Long-term goal:</strong> combine physics, math, and AI to tackle
+          real scientific challenges — and (someday) universities like MIT. 🚀
+        </p>
+      </div>
+      <div class="about-stats fade-up" style="transition-delay:.15s">
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Public Repos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">🥇</div>
+          <div class="stat-label">Gold — Pangea Math (multiple times)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">🏆</div>
+          <div class="stat-label">Math Olympiad — State Finals</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">🤖</div>
+          <div class="stat-label">WRO — National Finals</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Competitions ── -->
+<section id="competitions">
+  <div class="container">
+    <span class="section-tag fade-up">Achievements</span>
+    <h2 class="section-title fade-up">Competitions &amp; Programs</h2>
+    <p class="section-desc fade-up">A few highlights from contests and programs I've participated in.</p>
+    <div class="comp-grid">
+      <div class="comp-card fade-up">
+        <div class="comp-icon">🥇</div>
+        <div class="comp-title">Mathematik-Olympiade</div>
+        <div class="comp-desc">Qualified up to <strong>Landesrunde</strong> (State Finals) — one of Germany's most prestigious math olympiads.</div>
+      </div>
+      <div class="comp-card fade-up" style="transition-delay:.07s">
+        <div class="comp-icon">📐</div>
+        <div class="comp-title">Pangea Mathematikwettbewerb</div>
+        <div class="comp-desc">Won <strong>Gold in Germany multiple times</strong> — international math competition for school students.</div>
+      </div>
+      <div class="comp-card fade-up" style="transition-delay:.14s">
+        <div class="comp-icon">🧮</div>
+        <div class="comp-title">Jugend trainiert Mathematik (JuMa)</div>
+        <div class="comp-desc">Selected candidate for Germany's talent program aimed at identifying future mathematicians.</div>
+      </div>
+      <div class="comp-card fade-up" style="transition-delay:.21s">
+        <div class="comp-icon">🔬</div>
+        <div class="comp-title">Jugend forscht</div>
+        <div class="comp-desc">Presented original research projects — Germany's most famous youth science competition.</div>
+      </div>
+      <div class="comp-card fade-up" style="transition-delay:.28s">
+        <div class="comp-icon">🤖</div>
+        <div class="comp-title">World Robot Olympiad (WRO)</div>
+        <div class="comp-desc">Reached <strong>National Finals</strong> in the Junior category — robotics design &amp; programming challenge.</div>
+      </div>
+      <div class="comp-card fade-up" style="transition-delay:.35s">
+        <div class="comp-icon">👾</div>
+        <div class="comp-title">And more…</div>
+        <div class="comp-desc">Always on the lookout for the next interesting problem to solve or competition to enter.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="container">
+    <span class="section-tag fade-up">Tech Stack</span>
+    <h2 class="section-title fade-up">Skills &amp; Tools</h2>
+    <p class="section-desc fade-up">Languages, libraries, and tools I work with regularly or am actively learning.</p>
+    <div class="skills-grid fade-up">
+      <span class="skill-pill highlight">Python</span>
+      <span class="skill-pill highlight">NumPy</span>
+      <span class="skill-pill highlight">Matplotlib</span>
+      <span class="skill-pill">Git &amp; GitHub</span>
+      <span class="skill-pill">HTML &amp; CSS</span>
+      <span class="skill-pill">Scientific Computing</span>
+      <span class="skill-pill">Orbital Mechanics Simulation</span>
+      <span class="skill-pill">Data Visualisation</span>
+      <span class="skill-pill">Machine Learning (learning)</span>
+      <span class="skill-pill">Algorithms</span>
+      <span class="skill-pill">LaTeX (learning)</span>
+      <span class="skill-pill">Linux / Bash</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Projects ── -->
+<section id="projects">
+  <div class="container">
+    <span class="section-tag fade-up">Work</span>
+    <h2 class="section-title fade-up">Projects &amp; Repos</h2>
+    <p class="section-desc fade-up">A selection of my public GitHub repositories — from space simulations to web tools.</p>
+    <div class="projects-grid">
+
+      <!-- astrophysics-with-python -->
+      <div class="project-card fade-up">
+        <div class="project-header">
+          <span class="project-icon">🚀</span>
+          <div class="project-links">
+            <a href="https://github.com/devNull-bootloader/astrophysics-with-python" target="_blank" rel="noopener" class="project-link" title="GitHub">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="project-title">Astrophysics with Python</div>
+        <div class="project-desc">
+          A growing collection of Python simulations exploring orbital mechanics,
+          Hohmann transfers, and other astrophysics concepts. Built for
+          <em>Jugend forscht</em> and personal learning.
+        </div>
+        <div class="project-stars">★ 5 stars</div><!-- star count at time of writing; update manually as needed -->
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag">Astrophysics</span>
+          <span class="tag">Jugend forscht</span>
+        </div>
+      </div>
+
+      <!-- authenticator.github.io -->
+      <div class="project-card fade-up" style="transition-delay:.1s">
+        <div class="project-header">
+          <span class="project-icon">🔐</span>
+          <div class="project-links">
+            <a href="https://github.com/devNull-bootloader/authenticator.github.io" target="_blank" rel="noopener" class="project-link" title="GitHub">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+            <a href="https://devNull-bootloader.github.io/authenticator.github.io" target="_blank" rel="noopener" class="project-link" title="Live Site">↗</a>
+          </div>
+        </div>
+        <div class="project-title">HTML Authenticator PWA</div>
+        <div class="project-desc">
+          A lightweight Progressive Web App authenticator built in HTML/CSS/JS,
+          designed specifically to run on older devices like the iPhone 5.
+        </div>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">PWA</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+
+      <!-- WRO_Junior_2025 -->
+      <div class="project-card fade-up" style="transition-delay:.2s">
+        <div class="project-header">
+          <span class="project-icon">🤖</span>
+          <div class="project-links">
+            <a href="https://github.com/devNull-bootloader/WRO_Junior_2025" target="_blank" rel="noopener" class="project-link" title="GitHub">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="project-title">WRO Junior 2025</div>
+        <div class="project-desc">
+          Code and resources for my World Robot Olympiad (Junior) 2025 entry —
+          a robotics design and programming challenge that reached the National Finals.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Robotics</span>
+          <span class="tag">WRO</span>
+        </div>
+      </div>
+
+      <!-- CosmicCombos -->
+      <div class="project-card fade-up" style="transition-delay:.3s">
+        <div class="project-header">
+          <span class="project-icon">🌌</span>
+          <div class="project-links">
+            <a href="https://github.com/devNull-bootloader/CosmicCombos" target="_blank" rel="noopener" class="project-link" title="GitHub">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="project-title">CosmicCombos</div>
+        <div class="project-desc">
+          An HTML/web project — part of my exploration of front-end development
+          wrapped in a space-themed aesthetic.
+        </div>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
+      </div>
+
+      <!-- Urknall25 -->
+      <div class="project-card fade-up" style="transition-delay:.4s">
+        <div class="project-header">
+          <span class="project-icon">💥</span>
+          <div class="project-links">
+            <a href="https://github.com/devNull-bootloader/Urknall25" target="_blank" rel="noopener" class="project-link" title="GitHub">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="project-title">Urknall25</div>
+        <div class="project-desc">
+          "Urknall" — German for Big Bang. A project born from curiosity about
+          cosmology, combining physics ideas with code in 2025.
+        </div>
+        <div class="project-tags">
+          <span class="tag">Physics</span>
+          <span class="tag">Cosmology</span>
+        </div>
+      </div>
+
+      <!-- Coming soon card -->
+      <div class="project-card fade-up" style="transition-delay:.5s; border-style: dashed;">
+        <div class="project-header">
+          <span class="project-icon">✨</span>
+        </div>
+        <div class="project-title" style="color: var(--muted);">More Coming Soon…</div>
+        <div class="project-desc">
+          Planned: light curve analyser for exoplanet detection, AI galaxy classifier,
+          gravitational lensing visualiser, and N-body simulation.
+        </div>
+        <div class="project-tags">
+          <span class="tag">AI / ML</span>
+          <span class="tag">Astrophysics</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Contact ── -->
+<section id="contact">
+  <div class="container" style="display:flex;justify-content:center;">
+    <div class="contact-card fade-up">
+      <span class="section-tag">Get in Touch</span>
+      <h2 class="section-title">Let's Connect</h2>
+      <p>
+        I'm open to student-friendly collaborations, educational projects,
+        and conversations about math, physics, or CS. Don't hesitate to reach out!
+      </p>
+      <div class="contact-links">
+        <a href="mailto:urvishlanje25@gmail.com" class="btn btn-primary">
+          ✉ urvishlanje25@gmail.com
+        </a>
+        <a href="https://github.com/devNull-bootloader" target="_blank" rel="noopener" class="btn btn-outline">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub Profile
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>Built by <a href="https://github.com/devNull-bootloader">Urvish Lanje</a> · 2026 · Open source on <a href="https://github.com/devNull-bootloader/devNull-bootloader.github.io">GitHub</a></p>
+</footer>
+
+<script>
+  /* ─── Star-field ─────────────────────────────────── */
+  (function () {
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function init() {
+      resize();
+      stars = Array.from({ length: 180 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.2,
+        a: Math.random(),
+        speed: Math.random() * 0.004 + 0.001,
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        s.a += s.speed;
+        const alpha = (Math.sin(s.a) * 0.5 + 0.5) * 0.8 + 0.1;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', init);
+    init();
+    draw();
+  })();
+
+  /* ─── Scroll fade-in ─────────────────────────────── */
+  (function () {
+    const els = document.querySelectorAll('.fade-up');
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      }),
+      { threshold: 0.12 }
+    );
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+</body>
+</html>
