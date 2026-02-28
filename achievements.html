@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Achievements — Urvish Lanje</title>
+  <meta name="description" content="Urvish Lanje's competition results and academic achievements in mathematics, science, and robotics." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Urvish Lanje" />
+  <link rel="canonical" href="https://devnull-bootloader.github.io/achievements.html" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://devnull-bootloader.github.io/achievements.html" />
+  <meta property="og:title" content="Achievements — Urvish Lanje" />
+  <meta property="og:description" content="Urvish Lanje's competition results and academic achievements in mathematics, science, and robotics." />
+  <meta property="og:site_name" content="Urvish Lanje" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Achievements — Urvish Lanje" />
+  <meta name="twitter:description" content="Urvish Lanje's competition results and academic achievements in mathematics, science, and robotics." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo"><span>~/</span>urvish</a>
+    <ul class="nav-links">
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/achievements.html" class="nav-active">Achievements</a></li>
+      <li><a href="/skills.html">Skills</a></li>
+      <li><a href="/contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="achievements">
+      <span class="section-tag">// achievements</span>
+      <h1 class="section-title">Achievements</h1>
+      <p class="section-desc">
+        Competing across math, science, and robotics — pushing limits and learning
+        through challenging contests.
+      </p>
+
+      <div class="achievements-list">
+
+        <div class="achievement-item reveal">
+          <span class="achievement-icon" aria-hidden="true">🥇</span>
+          <div>
+            <div class="achievement-title">Pangea Mathematikwettbewerb</div>
+            <div class="achievement-desc">Won Gold in Germany multiple times — an international math competition.</div>
+          </div>
+          <span class="achievement-badge badge-gold">Gold × multiple</span>
+        </div>
+
+        <div class="achievement-item reveal">
+          <span class="achievement-icon" aria-hidden="true">📐</span>
+          <div>
+            <div class="achievement-title">Mathematik-Olympiade</div>
+            <div class="achievement-desc">Qualified up to the Landesrunde (State Finals) — Germany's premier math olympiad.</div>
+          </div>
+          <span class="achievement-badge badge-silver">State Finals</span>
+        </div>
+
+        <div class="achievement-item reveal">
+          <span class="achievement-icon" aria-hidden="true">🤖</span>
+          <div>
+            <div class="achievement-title">World Robot Olympiad</div>
+            <div class="achievement-desc">Reached National Finals representing Germany in competitive robotics.</div>
+          </div>
+          <span class="achievement-badge badge-blue">National Finals</span>
+        </div>
+
+        <div class="achievement-item reveal">
+          <span class="achievement-icon" aria-hidden="true">🔬</span>
+          <div>
+            <div class="achievement-title">Jugend Forscht</div>
+            <div class="achievement-desc">Research &amp; project-based science competition — presented astrophysics work.</div>
+          </div>
+          <span class="achievement-badge badge-blue">State Finals</span>
+        </div>
+
+        <div class="achievement-item reveal">
+          <span class="achievement-icon" aria-hidden="true">🧮</span>
+          <div>
+            <div class="achievement-title">Jugend trainiert Mathematik (JuMa)</div>
+            <div class="achievement-desc">Selected as a candidate for Germany's elite mathematics training program.</div>
+          </div>
+          <span class="achievement-badge badge-silver">Candidate</span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built by <a href="https://github.com/devNull-bootloader">Urvish Lanje</a> &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

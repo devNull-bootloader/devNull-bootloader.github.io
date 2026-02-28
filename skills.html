@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skills — Urvish Lanje</title>
+  <meta name="description" content="Technical skills and tools used by Urvish Lanje — Python, NumPy, HTML/CSS, Git, and more." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Urvish Lanje" />
+  <link rel="canonical" href="https://devnull-bootloader.github.io/skills.html" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://devnull-bootloader.github.io/skills.html" />
+  <meta property="og:title" content="Skills — Urvish Lanje" />
+  <meta property="og:description" content="Technical skills and tools used by Urvish Lanje — Python, NumPy, HTML/CSS, Git, and more." />
+  <meta property="og:site_name" content="Urvish Lanje" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Skills — Urvish Lanje" />
+  <meta name="twitter:description" content="Technical skills and tools used by Urvish Lanje — Python, NumPy, HTML/CSS, Git, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo"><span>~/</span>urvish</a>
+    <ul class="nav-links">
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/achievements.html">Achievements</a></li>
+      <li><a href="/skills.html" class="nav-active">Skills</a></li>
+      <li><a href="/contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div id="skills">
+      <div class="inner" style="padding-top:8rem; padding-bottom:7rem;">
+        <span class="section-tag">// skills</span>
+        <h1 class="section-title">Skills</h1>
+
+        <div class="skills-grid">
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🐍</div>
+            <div class="skill-name">Python</div>
+            <div class="skill-level">Main Language</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">📊</div>
+            <div class="skill-name">NumPy / Matplotlib</div>
+            <div class="skill-level">Scientific Computing</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🌐</div>
+            <div class="skill-name">HTML / CSS</div>
+            <div class="skill-level">Web Development</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🔧</div>
+            <div class="skill-name">Git / GitHub</div>
+            <div class="skill-level">Version Control</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🧬</div>
+            <div class="skill-name">Machine Learning</div>
+            <div class="skill-level">Currently Learning</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🤖</div>
+            <div class="skill-name">Robotics</div>
+            <div class="skill-level">WRO / Competition</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">∫</div>
+            <div class="skill-name">Mathematics</div>
+            <div class="skill-level">Olympiad Level</div>
+          </div>
+          <div class="skill-card reveal">
+            <div class="skill-icon" aria-hidden="true">🪐</div>
+            <div class="skill-name">Astrophysics</div>
+            <div class="skill-level">Simulations &amp; Theory</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Built by <a href="https://github.com/devNull-bootloader">Urvish Lanje</a> &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

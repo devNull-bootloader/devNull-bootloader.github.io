@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me — Urvish Lanje</title>
+  <meta name="description" content="Learn about Urvish Lanje — student, developer, and astrophysics enthusiast based in Germany." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Urvish Lanje" />
+  <link rel="canonical" href="https://devnull-bootloader.github.io/about.html" />
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://devnull-bootloader.github.io/about.html" />
+  <meta property="og:title" content="About Me — Urvish Lanje" />
+  <meta property="og:description" content="Learn about Urvish Lanje — student, developer, and astrophysics enthusiast based in Germany." />
+  <meta property="og:site_name" content="Urvish Lanje" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="About Me — Urvish Lanje" />
+  <meta name="twitter:description" content="Learn about Urvish Lanje — student, developer, and astrophysics enthusiast based in Germany." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo"><span>~/</span>urvish</a>
+    <ul class="nav-links">
+      <li><a href="/about.html" class="nav-active">About</a></li>
+      <li><a href="/projects.html">Projects</a></li>
+      <li><a href="/achievements.html">Achievements</a></li>
+      <li><a href="/skills.html">Skills</a></li>
+      <li><a href="/contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="about">
+      <span class="section-tag">// about me</span>
+      <h1 class="section-title">About Me</h1>
+      <p class="section-desc">
+        I'm Urvish — an Indian student growing up in Germany with a deep love for
+        mathematics, physics, and programming. I enjoy turning complex ideas into
+        clean code and elegant solutions.
+      </p>
+
+      <div class="about-grid">
+        <div class="about-card reveal">
+          <h3><span class="card-icon" aria-hidden="true">🧠</span> Interests</h3>
+          <p style="font-size:.9rem; color:var(--text-dim); line-height:1.7;">
+            From olympiad-style math proofs to astrophysics simulations — I love
+            tackling hard problems and understanding the fundamentals behind them.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Mathematics</span>
+            <span class="tag">Astrophysics</span>
+            <span class="tag">Physics</span>
+            <span class="tag">Algorithms</span>
+            <span class="tag">Machine Learning</span>
+          </div>
+        </div>
+
+        <div class="about-card reveal">
+          <h3><span class="card-icon" aria-hidden="true">💻</span> Tech Stack</h3>
+          <p style="font-size:.9rem; color:var(--text-dim); line-height:1.7;">
+            Python is my go-to for everything from scientific simulations to data
+            analysis. Currently exploring ML, AI, and advanced algorithms.
+          </p>
+          <div class="tag-list">
+            <span class="tag green">Python</span>
+            <span class="tag green">NumPy</span>
+            <span class="tag green">Matplotlib</span>
+            <span class="tag green">Git</span>
+            <span class="tag green">HTML/CSS</span>
+          </div>
+        </div>
+
+        <div class="about-card reveal">
+          <h3><span class="card-icon" aria-hidden="true">🚀</span> Currently working on</h3>
+          <ul style="font-size:.9rem; color:var(--text-dim); line-height:2; padding-left:1.2rem;">
+            <li>Physics &amp; math simulations</li>
+            <li>ML &amp; AI projects</li>
+            <li>Astrophysics visualizations</li>
+            <li>Competition preparation</li>
+          </ul>
+        </div>
+
+        <div class="about-card reveal">
+          <h3><span class="card-icon" aria-hidden="true">🤝</span> Open to Collaborate</h3>
+          <p style="font-size:.9rem; color:var(--text-dim); line-height:1.7;">
+            I welcome student-friendly collaborations on open-source, educational,
+            or math/physics/CS-related projects. Reach out — I'd love to connect!
+          </p>
+          <div style="margin-top:.75rem;">
+            <a href="mailto:urvishlanje25@gmail.com" class="btn btn-ghost" style="font-size:.82rem; padding:.45rem 1rem;">
+              📫 urvishlanje25@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built by <a href="https://github.com/devNull-bootloader">Urvish Lanje</a> &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
